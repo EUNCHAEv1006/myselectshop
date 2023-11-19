@@ -111,6 +111,12 @@ public class ProductService {
         Pageable pageable = PageRequest.of(page, size, sort);
 
         // 해당 폴더에 등록된 상품을 가져옵니다.
+        // select * from product p where p.user_id = 1;
+        // ==
+        // select p.id, p.title as product_title, pf.product_id as product_id,  pf.folder_id as folder_id
+        // from product p left join product_folder pf on p.id = pf.product_id where p.user_id = 1;
+        // order by p.id
+        // limit 10, 10;
         Page<Product> products = productRepository.findAllByUserAndProductFolderList_FolderId(user, folderId, pageable);
 
         Page<ProductResponseDto> responseDtoList = products.map(ProductResponseDto::new);
